@@ -32,7 +32,7 @@ const CreatePage = () => {
 						</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<p>Try out "Angular momentum using Naruto in Hindi"</p>
+						<p>Try out &quot;Angular momentum using Naruto in Hindi&quot;</p>
 					</CardContent>
 				</Card>
 				<section className="grid sm:grid-cols-2 gap-5">
@@ -166,7 +166,7 @@ const CreatePage = () => {
 											Powerpuff girls
 										</SelectItem>
 										<SelectItem value="Dexter's">
-											Dexter's
+											Dexter&apos;s
 										</SelectItem>
 										<SelectItem value="Rick and Morty">
 											Rick and Morty
@@ -210,7 +210,7 @@ const CreatePage = () => {
 											3Blue1Brown
 										</SelectItem>
 										<SelectItem value="Explain like I'm 5">
-											Explain like I'm 5
+											Explain like I&apos;m 5
 										</SelectItem>
 									</SelectGroup>
 								</SelectContent>
