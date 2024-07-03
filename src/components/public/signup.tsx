@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import useAuth from "@/context/auth/useAuth";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -55,6 +56,7 @@ let toastId;
 export default function Signup() {
 	const router = useRouter();
 	const [open, setOpen] = useState(false);
+	const { setAuthStatus } = useAuth();
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -75,6 +77,7 @@ export default function Signup() {
 				id: toastId,
 			});
 			router.push("/create");
+			setAuthStatus(true);
 		} catch (error: any) {
 			console.log(error?.response?.data?.message);
 			toast.error("Error", { id: toastId });
@@ -213,7 +216,7 @@ export default function Signup() {
 
 	return (
 		<Drawer open={open} onOpenChange={setOpen}>
-				<Toaster />
+			<Toaster />
 			<DrawerTrigger asChild>
 				<Button>Signup</Button>
 			</DrawerTrigger>

@@ -1,10 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import Login from "@/components/public/login";
 import Signup from "@/components/public/signup";
 import ToggleButton from "@/components/toggle-button";
 import axios from "axios";
+import useAuth from "@/context/auth/useAuth";
 
 import {
 	Sheet,
@@ -18,21 +19,22 @@ import { Heart } from "lucide-react";
 
 type IconProps = React.SVGProps<SVGSVGElement>;
 
-export default function Component() {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+export default function Navbar() {
+	const { authStatus, setAuthStatus } = useAuth();
 
 	useEffect(() => {
 		const fetchUser = async () => {
 			try {
+				if (authStatus) return;
 				const user = await axios.get("/api/v1/users/", {
 					withCredentials: true,
 				});
 				if (user?.data?.statusCode === 200) {
-					setIsLoggedIn(true);
+					setAuthStatus(true);
 				}
 			} catch (error: any) {
 				console.log(error);
-				setIsLoggedIn(false);
+				setAuthStatus(false);
 			}
 		};
 
@@ -42,7 +44,7 @@ export default function Component() {
 	const handleLogout = async () => {
 		try {
 			await axios.post("/api/v1/users/logout");
-			setIsLoggedIn(false);
+			setAuthStatus(false);
 		} catch (error: any) {
 			console.error(error.message);
 		}
@@ -55,7 +57,7 @@ export default function Component() {
 				<span>Visual.ly</span>
 			</Link>
 			<nav className="hidden items-center gap-6 md:flex">
-				{isLoggedIn ? (
+				{authStatus ? (
 					<>
 						<Link
 							href="/create"
@@ -102,7 +104,7 @@ export default function Component() {
 						>
 							Home
 						</Link>
-						{isLoggedIn ? (
+						{authStatus ? (
 							<>
 								<Link href="/create" className="px-4 py-2">
 									Create

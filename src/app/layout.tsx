@@ -1,20 +1,24 @@
+"use client";
+import { useState } from "react";
 import { ThemeProvider } from "@/components/theme-provider";
-import type { Metadata } from "next";
+import { AuthProvider } from "@/context/auth/AuthContext";
+import { metadata } from "./metadata";
 import "@/styles/globals.css";
-
-export const metadata: Metadata = {
-	title: "Visual.ly",
-	description: "Generated awesome AI videos",
-};
 
 export default function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const [authStatus, setAuthStatus] = useState<boolean>(false);
 	return (
-		<html lang="en">
+		<html lang="en" suppressHydrationWarning>
 			<head>
+				<title>{metadata.title as string}</title>
+				<meta
+					name="description"
+					content={metadata.description as string}
+				/>
 				<link
 					rel="icon"
 					type="image/png"
@@ -23,13 +27,15 @@ export default function RootLayout({
 				/>
 			</head>
 			<body>
-				<ThemeProvider
-					attribute="class"
-					defaultTheme="system"
-					enableSystem
-				>
-					{children}
-				</ThemeProvider>
+				<AuthProvider value={{ authStatus, setAuthStatus }}>
+					<ThemeProvider
+						attribute="class"
+						defaultTheme="system"
+						enableSystem
+					>
+						{children}
+					</ThemeProvider>
+				</AuthProvider>
 			</body>
 		</html>
 	);
